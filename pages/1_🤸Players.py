@@ -273,7 +273,7 @@ with tab1:
         st.plotly_chart(fig)
     else:
         selected = st.selectbox('Select a column to visualize top 10 categorical data about players per overall',['Best Position','Attacking Work Rate', 'Defensive Work Rate', 'Preferred Foot','Week Foot','Skill Moves','International Reputation'],help = 'select one column')
-        agg_selected = st.radio('Select aggregation function do  you want to apply !', ['count','mean','sum'])
+        agg_selected = st.radio('Select aggregation function you want to apply !', ['count','mean','sum'])
         if agg_selected != 'count':
             fig = (px.bar(data_frame=df.groupby(selected)['Overall'].agg(agg_selected).reset_index().nlargest(10,'Overall')
             ,x=selected,y='Overall',template='simple_white',text_auto=True,color=selected,color_discrete_sequence=px.colors.sequential.RdBu
@@ -335,18 +335,18 @@ with tab2:
         background = 'https://creatufut.com/wp-content/uploads/2023/09/TOTY-ICON_FIFA_23.png'
         color_card_type = '#000000'
         overall = overall + 6
-    
+
 
     elif card_type == 'Flashback':
         background = 'https://creatufut.com/wp-content/uploads/2023/09/FLASHBACK_FIFA_23.png'
         color_card_type = '#FFFFFF'
         overall = overall + 3
-    
+
     elif card_type == 'TOTW':
         background = 'https://creatufut.com/wp-content/uploads/2023/09/IF_FIFA_23.png'
         color_card_type = '#FFFFFF'
         overall = overall + 2
-    
+
     if st.checkbox('Custom Card',help='Make Your Custom Player :smile:'):
         cs1,cs2 = st.columns(2)
         player_name = cs1.text_input('Enter Your Name :')
@@ -888,5 +888,3 @@ with tab2:
         formatted_html_code = html_code.format(**player_info)
 
         st.markdown(formatted_html_code, unsafe_allow_html=True)
-
-

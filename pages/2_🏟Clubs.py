@@ -82,7 +82,6 @@ col1,col2 = st.columns(2)
 club = col1.selectbox('Select a Club to filter by ',df['Club Name'].unique() )
 
 column = col2.selectbox('Select a Category to filter by ',['Nationality','Full Name','Club Position','Preferred Foot','Club Position','Attacking Work Rate', 'Defensive Work Rate', 'Player Main Position'])
-# agg_selected = col2.radio('Select aggregation function do  you want to apply !', ['count','mean','sum'])
 
 fig = px.pie(df[df['Club Name'] ==club].groupby(column)['Known As'].count().reset_index()
         ,values='Known As',names=column,template='simple_white',hole=.34
@@ -95,7 +94,7 @@ st.divider()
 column1,column2 = st.columns(2)
 
 
-agg_selected = column2.radio('Select aggregation function do  you want to apply !', ['mean','sum'])
+agg_selected = column2.radio('Select aggregation function you want to apply !', ['mean','sum'])
 column = column1.selectbox('Select a Feature to filter by ',num_cols)
 number = st.slider('Select the number of Clubs to display .',min_value = 10, max_value = 650, step = 1,help='Count of Clubs to display')
 x = df.groupby('Club Name')[column].agg(agg_selected).reset_index().sort_values(by=column,ascending=False).head(number)
@@ -109,7 +108,7 @@ st.divider()
 c1,c2 = st.columns(2)
 
 column_num = c1.selectbox('Select a Numerical Feature to filter by',num_cols)
-aggregation_selected = c1.radio('Select aggregation function do  you want to apply !!', ['mean','sum'])
+aggregation_selected = c1.radio('Select aggregation function you want to apply !!', ['mean','sum'])
 column_cat = c2.selectbox('Select a Categorical Feature to filter by',cat_cols)
 
 Top_clubs = df.groupby('Club Name')[column_num].agg(aggregation_selected).reset_index().sort_values(by=column_num,ascending=False).head(10)
