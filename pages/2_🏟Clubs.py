@@ -166,4 +166,4 @@ card5_name = (top_clubs['Known As'].reset_index()['Known As'][4])
 card5.write(card5_name)
 
 if st.checkbox('Show DataFrame',help='Show Data frame about the selected club') :
-    st.dataframe(df[df['Club Name']==club])
+    st.dataframe(df[df['Club Name']==clubs])
