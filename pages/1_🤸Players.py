@@ -7,11 +7,11 @@ import json
 import requests
 from streamlit_lottie import st_lottie
 
-st.set_page_config(page_title="Players",initial_sidebar_state = 'expanded')
+st.set_page_config(page_title="Players",initial_sidebar_state = 'expanded',page_icon = '🤸')
 
 st.markdown('<h1 style="text-align: center; color: #D8DACC; font-size: 40px; font-weight: bold;">Fifa 23 Analysis</h1>', unsafe_allow_html=True)
 
-df = pd.read_csv("Fifa_23.csv")
+df = pd.read_csv("Fifa_23_clear.csv",index_col = "Unnamed: 0")
 def load_lottieurl(url:str):
     r = requests.get(url)
     if r.status_code !=200:
@@ -34,6 +34,7 @@ def playerlocation(x):
 df['Player Main Position'] = df.apply(lambda x : playerlocation(x['Best Position']),axis=1)
 num_cols = df.select_dtypes(include='number').columns
 cat_cols = df.select_dtypes(include='O').columns
+
 
 #  ------------------------------------------------------------------
 st.divider()
@@ -79,7 +80,7 @@ with tab1:
         card3.write('No Data To Show')
 
     st.divider()
-
+    st.header('Filter with Position:')
     col1,col2 = st.columns(2)
     with col1:
         option = st.selectbox('Select a Position to filter by ',['ST Rating', 'LW Rating', 'LF Rating', 'CF Rating', 'RF Rating','RW Rating', 'CAM Rating', 'LM Rating', 'CM Rating', 'RM Rating','LWB Rating', 'CDM Rating', 'RWB Rating', 'LB Rating', 'CB Rating','RB Rating', 'GK Rating'],help = 'Position Rating')
@@ -158,96 +159,99 @@ with tab1:
             card5_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][4])
             card5.write(card5_name)
 
-    if st.checkbox('Select by specific stats',False,help = 'Specific stats like(Long shots ,Pass accuracy,etc..)'):
-        col1,col2 = st.columns(2)
-        with col1:
-            option = st.selectbox('Select column to filter by ',['Pace Total', 'Shooting Total',
-            'Passing Total', 'Dribbling Total', 'Defending Total',
-            'Physicality Total', 'Crossing', 'Finishing', 'Heading Accuracy',
-            'Short Passing', 'Volleys', 'Dribbling', 'Curve', 'Freekick Accuracy',
-            'LongPassing', 'BallControl', 'Acceleration', 'Sprint Speed', 'Agility',
-            'Reactions', 'Balance', 'Shot Power', 'Jumping', 'Stamina', 'Strength',
-            'Long Shots', 'Aggression', 'Interceptions', 'Positioning', 'Vision',
-            'Penalties', 'Composure', 'Marking', 'Standing Tackle',
-            'Sliding Tackle', 'Goalkeeper Diving', 'Goalkeeper Handling',
-            ' GoalkeeperKicking', 'Goalkeeper Positioning', 'Goalkeeper Reflexes'])
-        with col2:
-            number = st.number_input('Enter the number of players to display.',min_value = 5, max_value = 100, step = 1,help='Count of player to display')
+    st.divider()
+    st.header('Filter with Specific Status:')
+    col1,col2 = st.columns(2)
+    with col1:
+        option = st.selectbox('Select column to filter by ',['Pace Total', 'Shooting Total',
+        'Passing Total', 'Dribbling Total', 'Defending Total',
+        'Physicality Total', 'Crossing', 'Finishing', 'Heading Accuracy',
+        'Short Passing', 'Volleys', 'Dribbling', 'Curve', 'Freekick Accuracy',
+        'LongPassing', 'BallControl', 'Acceleration', 'Sprint Speed', 'Agility',
+        'Reactions', 'Balance', 'Shot Power', 'Jumping', 'Stamina', 'Strength',
+        'Long Shots', 'Aggression', 'Interceptions', 'Positioning', 'Vision',
+        'Penalties', 'Composure', 'Marking', 'Standing Tackle',
+        'Sliding Tackle', 'Goalkeeper Diving', 'Goalkeeper Handling',
+        ' GoalkeeperKicking', 'Goalkeeper Positioning', 'Goalkeeper Reflexes'])
+    with col2:
+        number = st.number_input('Enter the number of players to display.',min_value = 5, max_value = 100, step = 1,help='Count of player to display')
 
-        high_or_low = st.radio('Select High or Low .',['High','Low'],horizontal = True,help = 'Get Max or Min players')
+    high_or_low = st.radio('Select High or Low .',['High','Low'],horizontal = True,help = 'Get Max or Min players')
 
+    if high_or_low == 'High':
+        st.dataframe(df.sort_values(by =option,ascending=False).head(number).reset_index())
+    else:
+        st.dataframe(df.sort_values(by =option,ascending=True).head(number).reset_index())
+    
+    if st.checkbox('Show Images .',help = 'Get images of 5  highest/ lowest players'):
+        col1,col2,col3,col4,col5= st.columns(5)
         if high_or_low == 'High':
-            st.dataframe(df.sort_values(by =option,ascending=False).head(number).reset_index())
-        else:
-            st.dataframe(df.sort_values(by =option,ascending=True).head(number).reset_index())
+            card1 = col1.container(border = True)
+            card1_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][0])
+            card1.image(card1_img)
+            card1_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][0])
+            card1.write(card1_name)
 
-        if st.checkbox('Show Images .',help = 'Get images of 5  highest/ lowest players'):
-            col1,col2,col3,col4,col5= st.columns(5)
-            if high_or_low == 'High':
-                card1 = col1.container(border = True)
-                card1_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][0])
-                card1.image(card1_img)
-                card1_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][0])
-                card1.write(card1_name)
+            card2 = col2.container(border = True)
+            card2_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][1])
+            card2.image(card2_img)
+            card2_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][1])
+            card2.write(card2_name)
 
-                card2 = col2.container(border = True)
-                card2_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][1])
-                card2.image(card2_img)
-                card2_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][1])
-                card2.write(card2_name)
+            card3 = col3.container(border = True)
+            card3_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][2])
+            card3.image(card3_img)
+            card3_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][2])
+            card3.write(card3_name)
 
-                card3 = col3.container(border = True)
-                card3_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][2])
-                card3.image(card3_img)
-                card3_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][2])
-                card3.write(card3_name)
+            card4 = col4.container(border = True)
+            card4_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][3])
+            card4.image(card4_img)
+            card4_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][3])
+            card4.write(card4_name)
 
-                card4 = col4.container(border = True)
-                card4_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][3])
-                card4.image(card4_img)
-                card4_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][3])
-                card4.write(card4_name)
+            card5 = col5.container(border = True)
+            card5_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][4])
+            card5.image(card5_img)
+            card5_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][4])
+            card5.write(card5_name)
 
-                card5 = col5.container(border = True)
-                card5_img = (df.sort_values(by = option,ascending=False).head(5)['Image Link'].reset_index()['Image Link'][4])
-                card5.image(card5_img)
-                card5_name = (df.sort_values(by = option,ascending=False).head(5)['Known As'].reset_index()['Known As'][4])
-                card5.write(card5_name)
+        elif high_or_low =='Low':
+            card1 = col1.container(border = True)
+            card1_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][0])
+            card1.image(card1_img)
+            card1_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][0])
+            card1.write(card1_name)
 
-            elif high_or_low =='Low':
-                card1 = col1.container(border = True)
-                card1_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][0])
-                card1.image(card1_img)
-                card1_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][0])
-                card1.write(card1_name)
+            card2 = col2.container(border = True)
+            card2_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][1])
+            card2.image(card2_img)
+            card2_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][1])
+            card2.write(card2_name)
 
-                card2 = col2.container(border = True)
-                card2_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][1])
-                card2.image(card2_img)
-                card2_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][1])
-                card2.write(card2_name)
+            card3 = col3.container(border = True)
+            card3_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][2])
+            card3.image(card3_img)
+            card3_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][2])
+            card3.write(card3_name)
 
-                card3 = col3.container(border = True)
-                card3_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][2])
-                card3.image(card3_img)
-                card3_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][2])
-                card3.write(card3_name)
+            card4 = col4.container(border = True)
+            card4_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][3])
+            card4.image(card4_img)
+            card4_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][3])
+            card4.write(card4_name)
 
-                card4 = col4.container(border = True)
-                card4_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][3])
-                card4.image(card4_img)
-                card4_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][3])
-                card4.write(card4_name)
-
-                card5 = col5.container(border = True)
-                card5_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][4])
-                card5.image(card5_img)
-                card5_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][4])
-                card5.write(card5_name)
+            card5 = col5.container(border = True)
+            card5_img = (df.sort_values(by = option,ascending=True).head(5)['Image Link'].reset_index()['Image Link'][4])
+            card5.image(card5_img)
+            card5_name = (df.sort_values(by = option,ascending=True).head(5)['Known As'].reset_index()['Known As'][4])
+            card5.write(card5_name)
 
     st.divider()
+    
+    st.header('The Visualization')
 
-    option = st.radio('Select the type of column to visualization',['Numerical','Categorical'])
+    option = st.radio('Select the type of Data :',['Numerical','Categorical'])
 
 
     if option == 'Numerical':
@@ -273,20 +277,20 @@ with tab1:
         st.plotly_chart(fig)
     else:
         selected = st.selectbox('Select a column to visualize top 10 categorical data about players per overall',['Best Position','Attacking Work Rate', 'Defensive Work Rate', 'Preferred Foot','Week Foot','Skill Moves','International Reputation'],help = 'select one column')
-        agg_selected = st.radio('Select aggregation function you want to apply !', ['count','mean','sum'])
+        agg_selected = st.radio('Select aggregation function do  you want to apply !', ['count','mean','sum'])
         if agg_selected != 'count':
             fig = (px.bar(data_frame=df.groupby(selected)['Overall'].agg(agg_selected).reset_index().nlargest(10,'Overall')
             ,x=selected,y='Overall',template='simple_white',text_auto=True,color=selected,color_discrete_sequence=px.colors.sequential.RdBu
             ,title = f'The barplot about {agg_selected} of Overall per each {selected}'))
             st.plotly_chart(fig)
         else :
-            column1,column2 = st.columns(2)
-            with column1:
-                fig = (px.scatter(df,y='Overall',x=selected,size='Overall',color='Overall',title=f'Scatter Chart about Overall and {selected}',template='simple_white',color_discrete_sequence=px.colors.sequential.RdBu))
-                st.plotly_chart(fig)
-            with column2:
-                fig = (px.pie(df,values='Overall',names=selected,title=f'Pie Chart about {selected}',template='simple_white',color_discrete_sequence=px.colors.sequential.RdBu,hole = 0.34))
-                st.plotly_chart(fig)
+            
+            
+            fig = (px.scatter(df,y='Overall',x=selected,size='Overall',color='Overall',title=f'Scatter Chart about Overall and {selected}',template='simple_white',color_discrete_sequence=px.colors.sequential.RdBu))
+            st.plotly_chart(fig)
+            
+            fig = (px.pie(df,values='Overall',names=selected,title=f'Pie Chart about {selected}',template='simple_white',color_discrete_sequence=px.colors.sequential.RdBu,hole = 0.34))
+            st.plotly_chart(fig)
 
     st.divider()
 with tab2:
@@ -335,18 +339,18 @@ with tab2:
         background = 'https://creatufut.com/wp-content/uploads/2023/09/TOTY-ICON_FIFA_23.png'
         color_card_type = '#000000'
         overall = overall + 6
-
+    
 
     elif card_type == 'Flashback':
         background = 'https://creatufut.com/wp-content/uploads/2023/09/FLASHBACK_FIFA_23.png'
         color_card_type = '#FFFFFF'
         overall = overall + 3
-
+    
     elif card_type == 'TOTW':
         background = 'https://creatufut.com/wp-content/uploads/2023/09/IF_FIFA_23.png'
         color_card_type = '#FFFFFF'
         overall = overall + 2
-
+    
     if st.checkbox('Custom Card',help='Make Your Custom Player :smile:'):
         cs1,cs2 = st.columns(2)
         player_name = cs1.text_input('Enter Your Name :')
@@ -888,3 +892,5 @@ with tab2:
         formatted_html_code = html_code.format(**player_info)
 
         st.markdown(formatted_html_code, unsafe_allow_html=True)
+
+

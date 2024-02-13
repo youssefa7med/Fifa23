@@ -13,7 +13,7 @@ st.set_page_config(page_title="Fifa 23",initial_sidebar_state = 'expanded',page_
 
 st.markdown('<h1 style="text-align: center; color: #D8DACC; font-size: 40px; font-weight: bold;">Fifa 23 Analysis</h1>', unsafe_allow_html=True)
 
-df = pd.read_csv("Fifa_23.csv")
+df = pd.read_csv("Fifa_23_clear.csv",index_col = "Unnamed: 0")
 st.image("peakpx.jpg",width = 60, use_column_width = True)
 
 st.divider()

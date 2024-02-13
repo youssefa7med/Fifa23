@@ -11,7 +11,7 @@ st.set_page_config(page_title="Players",initial_sidebar_state = 'expanded')
 
 st.markdown('<h1 style="text-align: center; color: #D8DACC; font-size: 40px; font-weight: bold;">Fifa 23 Analysis</h1>', unsafe_allow_html=True)
 
-df = pd.read_csv("Fifa_23.csv")
+df = pd.read_csv("Fifa_23_clear.csv",index_col = "Unnamed: 0")
 # st.image("nations.jpeg",width = 60, use_column_width = True)
 def load_lottieurl(url:str):
     r = requests.get(url)
@@ -92,8 +92,8 @@ st.divider()
 column1,column2 = st.columns([6,4])
 
 column = column1.selectbox('Select a Numerical filter to apply ',num_cols)
-number = column2.number_input('Enter the number of Nations to display.',min_value = 10, max_value = 100, step = 1,help='Count of nations you want to display in histogram')
-agg_selected = column1.radio('Select aggregation function you want to apply !', ['mean','sum','count'],horizontal = True)
+number = column2.number_input('Enter the number of Nations to display.',min_value = 10, max_value = 100, step = 1,help='Count of nations do you want to display in histogram')
+agg_selected = column1.radio('Select aggregation function do  you want to apply !', ['mean','sum','count'],horizontal = True)
 high_low = column2.radio('Select Max or Min nation', ['Max','Min'],horizontal = True,help = 'Default value is Max')
 if high_low =='Max':
     top_nations = df.groupby(['National Team Name','National Team Image Link'])[column].agg(agg_selected).reset_index().nlargest(number,column).reset_index()
@@ -170,7 +170,7 @@ st.divider()
 c1,c2 = st.columns(2)
 
 column_num = c1.selectbox('Select a Numerical Feature to filter by',num_cols)
-aggregation_selected = c1.radio('Select aggregation function you want to apply !!', ['mean','sum'])
+aggregation_selected = c1.radio('Select aggregation function do  you want to apply !!', ['mean','sum'])
 column_cat = c2.selectbox('Select a Categorical Feature to filter by',cat_cols)
 
 Top_nat = df.groupby('National Team Name')[column_num].agg(aggregation_selected).reset_index().sort_values(by=column_num,ascending=False).head(10)

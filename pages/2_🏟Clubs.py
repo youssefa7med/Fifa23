@@ -11,7 +11,7 @@ st.set_page_config(page_title="Clubs",initial_sidebar_state = 'expanded',page_ic
 
 st.markdown('<h1 style="text-align: center; color: #D8DACC; font-size: 40px; font-weight: bold;">Fifa 23 Analysis</h1>', unsafe_allow_html=True)
 
-df = pd.read_csv("Fifa_23.csv")
+df = pd.read_csv("Fifa_23_clear.csv",index_col = "Unnamed: 0")
 # st.image("arena.jpeg",width = 60, use_column_width = True)
 df.drop_duplicates(inplace = True)
 
@@ -81,7 +81,8 @@ col1,col2 = st.columns(2)
 
 club = col1.selectbox('Select a Club to filter by ',df['Club Name'].unique() )
 
-column = col2.selectbox('Select a Category to filter by ',['Nationality','Full Name','Club Position','Preferred Foot','Club Position','Attacking Work Rate', 'Defensive Work Rate', 'Player Main Position'])
+column = col2.selectbox('Select a Category to filter by ',['Nationality','Preferred Foot','Club Position','Attacking Work Rate', 'Defensive Work Rate', 'Player Main Position'])
+# agg_selected = col2.radio('Select aggregation function do  you want to apply !', ['count','mean','sum'])
 
 fig = px.pie(df[df['Club Name'] ==club].groupby(column)['Known As'].count().reset_index()
         ,values='Known As',names=column,template='simple_white',hole=.34
@@ -94,7 +95,7 @@ st.divider()
 column1,column2 = st.columns(2)
 
 
-agg_selected = column2.radio('Select aggregation function you want to apply !', ['mean','sum'])
+agg_selected = column2.radio('Select aggregation function do  you want to apply !', ['mean','sum'])
 column = column1.selectbox('Select a Feature to filter by ',num_cols)
 number = st.slider('Select the number of Clubs to display .',min_value = 10, max_value = 650, step = 1,help='Count of Clubs to display')
 x = df.groupby('Club Name')[column].agg(agg_selected).reset_index().sort_values(by=column,ascending=False).head(number)
@@ -108,7 +109,7 @@ st.divider()
 c1,c2 = st.columns(2)
 
 column_num = c1.selectbox('Select a Numerical Feature to filter by',num_cols)
-aggregation_selected = c1.radio('Select aggregation function you want to apply !!', ['mean','sum'])
+aggregation_selected = c1.radio('Select aggregation function do  you want to apply !!', ['mean','sum'])
 column_cat = c2.selectbox('Select a Categorical Feature to filter by',cat_cols)
 
 Top_clubs = df.groupby('Club Name')[column_num].agg(aggregation_selected).reset_index().sort_values(by=column_num,ascending=False).head(10)
@@ -165,4 +166,4 @@ card5_name = (top_clubs['Known As'].reset_index()['Known As'][4])
 card5.write(card5_name)
 
 if st.checkbox('Show DataFrame',help='Show Data frame about the selected club') :
-    st.dataframe(df[df['Club Name']==clubs])
+    st.dataframe(df[df['Club Name']==club])
