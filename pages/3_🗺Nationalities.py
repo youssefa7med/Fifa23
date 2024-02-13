@@ -43,6 +43,9 @@ df['National Team Name'] = df['National Team Name'].apply(lambda x :change_illeg
 
 # first row ------------------------------------------------------------------
 st.divider()
+
+st.header('Filter Top, Bottom and Average Nationalities:')
+
 selected = st.selectbox('Select a Column to filter by ',num_cols,help ='Get Max , Min and Avg' )
 st.write('\n\n\n')
 
@@ -88,7 +91,7 @@ card_max_name_nat =  top.nlargest(1,selected)['Nationality'].values[0]
 card3.write(f'Max mean of {selected} in {card_max_name_nat}')
 #  ------------------------------------------------------------------
 st.divider()
-#
+st.header('Top nations with selected column:')
 column1,column2 = st.columns([6,4])
 
 column = column1.selectbox('Select a Numerical filter to apply ',num_cols)
@@ -106,6 +109,8 @@ else:
     st.plotly_chart(fig)
 # --------------------------------------------------------------------------------
 st.divider()
+
+st.header('Filter by National Name:')
 
 nations = ['Argentina', 'France', 'Poland', 'Belgium', 'Germany',
     'Portugal', 'Netherlands', 'England', 'Norway', 'Italy', 'Croatia',
@@ -167,6 +172,9 @@ if st.checkbox('Show DataFrame',help='Show Data frame about the selected Nation'
 
 # ------------------------------------------------------------------------
 st.divider()
+
+st.header('Filter National Team by Categorical and Numerical Features:')
+
 c1,c2 = st.columns(2)
 
 column_num = c1.selectbox('Select a Numerical Feature to filter by',num_cols)

@@ -44,6 +44,8 @@ cat_cols = df.select_dtypes(include='O').columns
 #  ------------------------------------------------------------------
 st.divider()
 
+st.header('Filter Top, Bottom and Average Clubs:')
+
 selected = st.selectbox('Select a Column to filter by ',num_cols,help ='Get Max , Min and Avg' )
 st.write('\n\n\n')
 
@@ -77,6 +79,8 @@ card3.write(f'Max mean of {selected} in {card_max_name_nat}')
 #  ------------------------------------------------------------------
 st.divider()
 
+st.header('Filter by Club:')
+
 col1,col2 = st.columns(2)
 
 club = col1.selectbox('Select a Club to filter by ',df['Club Name'].unique() )
@@ -92,6 +96,8 @@ st.plotly_chart(fig)
 #  ------------------------------------------------------------------
 st.divider()
 
+st.header('Filter by Club and Feature:')
+
 column1,column2 = st.columns(2)
 
 
@@ -106,6 +112,9 @@ st.plotly_chart(fig)
 
 # ------------------------------------------------------------------
 st.divider()
+
+st.header('Filter Club by Categorical and Numerical Features:')
+
 c1,c2 = st.columns(2)
 
 column_num = c1.selectbox('Select a Numerical Feature to filter by',num_cols)
@@ -118,8 +127,10 @@ fig = px.histogram(df.groupby([column_cat,Top_clubs['Club Name']])[column_num].a
             ,title = f'The histogram about {aggregation_selected} of {column_num} in Top {10} Clubs per {column_cat}',barmode='group')
 
 st.plotly_chart(fig)
-
+# -------------------------------------------------------------
 st.divider()
+
+st.header('Filter to see club\'s players:')
 
 n1,n2 = st.columns([6,4])
 clubs = n1.selectbox('Select Club to filter by :',df['Club Name'].unique())

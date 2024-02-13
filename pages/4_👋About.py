@@ -20,7 +20,7 @@ email = "yaa2003ya@gmailcom"
 social_media = {"LinkedIn": "https://www.linkedin.com/in/youssef-ahmed-9a5643244","GitHub": "https://github.com/youssefa7med","Facebook": "https://www.facebook.com/profile.php?id=100049906008785&mibextid=ZbWKwL","WhatsApp": "https://api.whatsapp.com/send?phone=201000139417&text=%F0%9F%93%9E"}
 projects = {
     "🏆 Streamlit Fifa - Fifa 23 Analysis.":"https://fifa23-analysis.streamlit.app/",
-    "🎮 Fifa 23 Analysis - FIFA 23 analysis: Player ,Clubs and Nationalities Analysis.":"https://github.com/youssefa7med/Fifa23.git",
+    "🎮 Fifa 23 Analysis - FIFA 23 analysis: Player, Clubs and Nationalities Analysis.":"https://github.com/youssefa7med/Fifa23.git",
     "🏃🏼 Streamlit Ecommerce - Streamlit for Ecommerce Analysis.":"https://ecommerce-home.streamlit.app/",
     "👨🏻‍💻 Streamlit Jobs - Streamlit for Jobs Analysis.":"https://jobindata.streamlit.app/",
     "🛍️ Ecommerce Analysis - Analyzing online data to improve digital retail performance.":"https://github.com/youssefa7med/Ecommerce.git",
@@ -49,7 +49,7 @@ profile_pic = Image.open(profile_pic)
 
 
 
-col1,col2 = st.columns(2,gap = "small")
+col2,col1 = st.columns(2,gap = "small")
 with col1:
     st.image(profile_pic,width = 230)
 with col2:

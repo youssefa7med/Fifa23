@@ -38,7 +38,7 @@ cat_cols = df.select_dtypes(include='O').columns
 
 #  ------------------------------------------------------------------
 st.divider()
-
+st.header('Filter Top, Bottom and Average Players:')
 tab1,tab2 = st.tabs(['📊 Player Analysis',':frame_with_picture: Fifa Card'])
 with tab1:
     selected = st.selectbox('Select a Column to filter by ',num_cols,help ='Get Max , Min and Avg' )
@@ -249,7 +249,7 @@ with tab1:
 
     st.divider()
     
-    st.header('The Visualization')
+    st.header('Filter Players by Numerical Features:')
 
     option = st.radio('Select the type of Data :',['Numerical','Categorical'])
 
