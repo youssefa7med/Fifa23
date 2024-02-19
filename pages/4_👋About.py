@@ -1,14 +1,13 @@
 import streamlit as st
 from PIL import Image
 from pathlib import Path
-import json
 import requests
-from streamlit_lottie import st_lottie
+
 
 current_dir = Path(__file__).parent if "__file__" in locals() else Path.cwd()
 css_file = current_dir / "styles" / "main.css"
 profile_pic = current_dir / "assets" / "profile-pic.png"
-# reseme_file = current_dir / "assets" / "Resume.pdf"
+reseme_file = current_dir / "assets" / "Resume.pdf"
 
 page_title = "Digital CV | Youssef Ahmed"
 page_icon = ":wave:"
@@ -20,7 +19,7 @@ email = "yaa2003ya@gmailcom"
 social_media = {"LinkedIn": "https://www.linkedin.com/in/youssef-ahmed-9a5643244","GitHub": "https://github.com/youssefa7med","Facebook": "https://www.facebook.com/profile.php?id=100049906008785&mibextid=ZbWKwL","WhatsApp": "https://api.whatsapp.com/send?phone=201000139417&text=%F0%9F%93%9E"}
 projects = {
     "🏆 Streamlit Fifa - Fifa 23 Analysis.":"https://fifa23-analysis.streamlit.app/",
-    "🎮 Fifa 23 Analysis - FIFA 23 analysis: Player, Clubs and Nationalities Analysis.":"https://github.com/youssefa7med/Fifa23.git",
+    "🎮 Fifa 23 Analysis - FIFA 23 analysis: Player ,Clubs and Nationalities Analysis.":"https://github.com/youssefa7med/Fifa23.git",
     "🏃🏼 Streamlit Ecommerce - Streamlit for Ecommerce Analysis.":"https://ecommerce-home.streamlit.app/",
     "👨🏻‍💻 Streamlit Jobs - Streamlit for Jobs Analysis.":"https://jobindata.streamlit.app/",
     "🛍️ Ecommerce Analysis - Analyzing online data to improve digital retail performance.":"https://github.com/youssefa7med/Ecommerce.git",
@@ -42,8 +41,8 @@ st.set_page_config(page_title=page_title, page_icon=page_icon)
 with open (css_file) as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
-# with open(reseme_file,"rb") as pdf_file:
-#     PDFbyte = pdf_file.read()
+with open(reseme_file,"rb") as pdf_file:
+    PDFbyte = pdf_file.read()
 
 profile_pic = Image.open(profile_pic)
 
@@ -55,12 +54,12 @@ with col1:
 with col2:
     st.title(name)
     st.write(discription)
-    # st.download_button(
-    #     label=" 📄 Download Resume",
-    #     data=PDFbyte,
-    #     file_name=resume_file,
-    #     mime='application/octet-stream'
-    # )
+    st.download_button(
+        label=" 📄 Download Resume",
+        data=PDFbyte,
+        file_name=r"\assets\Resume.pdf",
+        mime='application/octet-stream'
+    )
     st.write("📫",email)
 
 
@@ -88,6 +87,7 @@ st.divider()
 st.write("""
 - 👨‍💻 Programming : Python (Numpy, Pandas, Scikit-learn) SQL
 - 📊 Data Visualization : Plotly, Matplotlib, Seaborn
+- 🕸️ Web Scrapping : Beautiful Soup
 - 📚 Machine Learning : Scikit-learn
 - 🗄️ Databases : MySQL
 - 🌐 Web Development : Streamlit
