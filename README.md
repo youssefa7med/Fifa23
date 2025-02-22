@@ -1,4 +1,5 @@
 # FIFA 23 Analysis
+![Image](https://i.pinimg.com/236x/78/2d/eb/782deb9e06f9435c1540f6a5381a0651.jpg)
 
 This project involves a comprehensive analysis of FIFA 23 player data to uncover insights into player performance, team dynamics, and game strategies. Using advanced data analysis techniques and interactive visualizations, the application provides valuable information for fans, analysts, and gaming enthusiasts.
 
